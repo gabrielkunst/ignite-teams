@@ -8,13 +8,14 @@ import {
 import { Loading } from "@components/Loading";
 import { StatusBar } from "react-native";
 import { Groups } from "@screens/Groups/Groups";
+import { NewGroup } from "@screens/NewGroup/NewGroup";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
 	return (
 		<ThemeProvider theme={theme}>
-			{fontsLoaded ? <Groups /> : <Loading />}
+			{fontsLoaded ? <NewGroup /> : <Loading />}
 			<StatusBar
 				barStyle="light-content"
 				backgroundColor={theme.COLORS.GRAY_700}

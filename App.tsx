@@ -7,15 +7,14 @@ import {
 } from "@expo-google-fonts/roboto";
 import { Loading } from "@components/Loading";
 import { StatusBar } from "react-native";
-import { Groups } from "@screens/Groups/Groups";
-import { NewGroup } from "@screens/NewGroup/NewGroup";
+import { Players } from "@screens/Players/Players";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
 	return (
 		<ThemeProvider theme={theme}>
-			{fontsLoaded ? <NewGroup /> : <Loading />}
+			{fontsLoaded ? <Players /> : <Loading />}
 			<StatusBar
 				barStyle="light-content"
 				backgroundColor={theme.COLORS.GRAY_700}

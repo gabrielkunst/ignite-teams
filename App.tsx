@@ -8,6 +8,7 @@ import {
 import { Loading } from "@components/Loading";
 import { StatusBar } from "react-native";
 import { Routes } from "./src/routes";
+import Toast from "react-native-toast-message";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -19,6 +20,7 @@ export default function App() {
 				barStyle="light-content"
 				backgroundColor={theme.COLORS.GRAY_700}
 			/>
+			<Toast />
 		</ThemeProvider>
 	);
 }

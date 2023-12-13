@@ -2,7 +2,6 @@ import { Header } from "@components/Header/Header";
 import { Container } from "./styles";
 import { Highlight } from "@components/Highlight/Hightlight";
 import { GroupsList } from "@components/GroupsList/GroupList";
-import { useState } from "react";
 import { Button } from "@components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
 import { useGroups } from "@contexts/GroupsContext/useGroups";

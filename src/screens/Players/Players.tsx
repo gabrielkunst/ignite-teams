@@ -9,10 +9,10 @@ import { PlayerCard } from "@components/PlayerCard/PlayerCard";
 import { ListEmpty } from "@components/ListEmpty/ListEmpty";
 import { Button } from "@components/Button/Button";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Group } from "@contexts/GroupsContext/GroupContextProps";
 import { Loading } from "@components/Loading";
 import { useGroups } from "@contexts/GroupsContext/useGroups";
 import Toast from "react-native-toast-message";
+import { Group } from "@@types/GroupType";
 
 type RouteParams = {
 	groupId: string;

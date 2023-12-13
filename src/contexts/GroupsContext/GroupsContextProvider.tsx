@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { GroupsContext } from "./GroupsContext";
-import { Group, Member } from "./GroupContextProps";
 import uuid from "react-native-uuid";
+import { Group } from "@@types/GroupType";
+import { Member } from "@@types/MemberType";
 
 interface GroupsContextProviderProps {
 	children: React.ReactNode;

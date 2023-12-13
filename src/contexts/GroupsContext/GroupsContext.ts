@@ -1,6 +1,6 @@
-import { Group } from "@contexts/GroupsContext/GroupContextProps";
 import { createContext } from "react";
 import { GroupContextProps } from "./GroupContextProps";
+import { Group } from "@@types/GroupType";
 
 export const GroupsContext = createContext<GroupContextProps>({
 	groups: [],

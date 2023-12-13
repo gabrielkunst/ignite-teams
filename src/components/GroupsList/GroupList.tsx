@@ -1,6 +1,6 @@
+import { Group } from "@@types/GroupType";
 import { GroupCard } from "@components/GroupCard/GroupCard";
 import { ListEmpty } from "@components/ListEmpty/ListEmpty";
-import { Group } from "@contexts/GroupsContext/GroupContextProps";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList } from "react-native";
 

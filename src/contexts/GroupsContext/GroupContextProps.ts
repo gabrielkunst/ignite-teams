@@ -1,3 +1,6 @@
+import { Group } from "@@types/GroupType";
+import { Member } from "@@types/MemberType";
+
 export interface GroupContextProps {
 	groups: Group[];
 	getGroup: (id: string) => Group | undefined;
@@ -11,15 +14,4 @@ export interface GroupContextProps {
 		memberId: string,
 		name: string
 	) => Member | undefined;
-}
-
-export interface Group {
-	id: string;
-	name: string;
-	members: Member[];
-}
-
-export interface Member {
-	id: string;
-	name: string;
 }

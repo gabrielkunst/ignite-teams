@@ -5,9 +5,10 @@ import { GroupsList } from "@components/GroupsList/GroupList";
 import { useState } from "react";
 import { Button } from "@components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
+import { useGroups } from "@contexts/GroupsContext/useGroups";
 
 export function Groups() {
-	const [groups, setGroups] = useState<string[]>([]);
+	const { groups } = useGroups();
 	const navigation = useNavigation();
 
 	const handleNewGroup = () => {

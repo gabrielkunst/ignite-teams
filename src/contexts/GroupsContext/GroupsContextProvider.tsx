@@ -31,10 +31,7 @@ export function GroupsContextProvider({
 			members: [],
 		};
 
-		setGroups((prevState) => {
-			console.log("PREVSTATE => ", prevState);
-			return [];
-		});
+		setGroups((prevState) => [...prevState, newGroup]);
 		return newGroup;
 	};
 

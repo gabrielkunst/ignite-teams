@@ -1,7 +1,7 @@
-import { Member } from "./MemberType";
+import { Team } from "./TeamType";
 
 export interface Group {
 	id: string;
 	name: string;
-	members: Member[];
+	teams: Team[];
 }

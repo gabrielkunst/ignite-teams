@@ -1,4 +1,4 @@
-export interface Member {
+export interface Player {
 	id: string;
 	name: string;
 }

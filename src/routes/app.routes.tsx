@@ -7,17 +7,17 @@ import { Players } from "@screens/Players/Players";
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRouter() {
-	return (
-		<GroupsContextProvider>
-			<Navigator
-				screenOptions={{
-					headerShown: false,
-				}}
-			>
-				<Screen name="groups" component={Groups} />
-				<Screen name="new" component={NewGroup} />
-				<Screen name="players" component={Players} />
-			</Navigator>
-		</GroupsContextProvider>
-	);
+  return (
+    <GroupsContextProvider>
+      <Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Screen name="groups" component={Groups} />
+        <Screen name="new" component={NewGroup} />
+        <Screen name="players" component={Players} />
+      </Navigator>
+    </GroupsContextProvider>
+  );
 }

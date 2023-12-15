@@ -7,7 +7,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src/ --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier . --write \"**/*.{js,jsx,ts,tsx,json,css,md,scss,html}\"",
+    "format:check": "prettier . --check \"**/*.{js,jsx,json,css,md,scss,html}\"",
+    "lint:all": "npm run lint && npm run format"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.2.3",
@@ -36,7 +41,15 @@
     "@types/react-native": "~0.66.13",
     "@types/styled-components": "^5.1.26",
     "@types/styled-components-react-native": "^5.1.3",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.1.1",
     "typescript": "^5.1.3"
   },
   "overrides": {

@@ -1,86 +1,68 @@
 import { Header } from "@components/Header/Header";
-import { Container, Form } from "./styles";
+import { Container } from "./styles";
 import { Highlight } from "@components/Highlight/Hightlight";
-import { ButtonIcon } from "@components/ButtonIcon/ButtonIcon";
-import { Input } from "@components/Input/Input";
-import { FlatList } from "react-native";
 import { useEffect, useState } from "react";
-import { PlayerCard } from "@components/PlayerCard/PlayerCard";
-import { ListEmpty } from "@components/ListEmpty/ListEmpty";
 import { Button } from "@components/Button/Button";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Loading } from "@components/Loading";
-import { useGroups } from "@contexts/GroupsContext/useGroups";
-import Toast from "react-native-toast-message";
+import { useRoute } from "@react-navigation/native";
+import { Team } from "@@types/TeamType";
 import { Group } from "@@types/GroupType";
+import { Loading } from "@components/Loading";
+import { Player } from "@@types/PlayerType";
+import { AddPlayerForm } from "@components/PlayersPage/AddPlayerForm/AddPlayerForm";
+import { TeamsHeader } from "@components/PlayersPage/TeamsHeader/TeamsHeader";
+import { PlayersList } from "@components/PlayersPage/PlayersList/PlayersList";
 
 type RouteParams = {
-	groupId: string;
+  groupId: string;
 };
 
 export function Players() {
-	const route = useRoute();
-	const { groupId } = route.params as RouteParams;
-	const { getGroup } = useGroups();
-	const navigation = useNavigation();
-	const [currentGroup, setCurrentGroup] = useState<Group>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [group, setGroup] = useState<Group | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
-	useEffect(() => {
-		const selectedGroup = getGroup(groupId);
+  const router = useRoute();
+  const { groupId } = router.params as RouteParams;
 
-		if (!selectedGroup) {
-			Toast.show({
-				text1: "Erro ao carregar turma",
-				text2: "Tente novamente mais tarde",
-				type: "error",
-				visibilityTime: 2000,
-				text1Style: {
-					fontSize: 14,
-				},
-				text2Style: {
-					fontSize: 14,
-				},
-			});
-			navigation.navigate("groups");
-			return;
-		}
+  const handleAddPlayer = (playerName: string) => {};
 
-		setCurrentGroup(selectedGroup);
-	}, []);
+  const handleDeletePlayer = (player: Player) => {};
 
-	if (!currentGroup) {
-		return <Loading />;
-	}
+  const handleDeleteGroup = () => {};
 
-	return (
-		<Container>
-			<Header showBackButton />
-			<Highlight title={currentGroup.name} subtitle="adicione a galera" />
+  useEffect(() => {});
 
-			<Form>
-				<Input placeholder="Nome da pessoa" autoCorrect={false} />
-				<ButtonIcon iconName="add" type="PRIMARY" />
-			</Form>
+  if (!group || isLoading) {
+    return <Loading />;
+  }
 
-			<FlatList
-				data={currentGroup.members}
-				showsVerticalScrollIndicator={false}
-				keyExtractor={(item) => item.id}
-				ListEmptyComponent={() => (
-					<ListEmpty message="Não há pessoas nesse time." />
-				)}
-				renderItem={({ item }) => (
-					<PlayerCard name={item.name} onRemove={() => {}} />
-				)}
-				contentContainerStyle={[
-					currentGroup.members.length !== 0 && { paddingBottom: 100 },
-					currentGroup.members.length === 0 && {
-						flex: 1,
-					},
-				]}
-			/>
+  return (
+    <Container>
+      <Header showBackButton />
 
-			<Button text="Remover turma" type="SECONDARY" />
-		</Container>
-	);
+      <Highlight
+        title={group?.name || "Nome do Grupo"}
+        subtitle="adicione a galera e separe os times"
+      />
+
+      <AddPlayerForm onSubmit={handleAddPlayer} />
+
+      <TeamsHeader
+        group={group}
+        selectedTeam={selectedTeam}
+        setSelectedTeam={setSelectedTeam}
+      />
+
+      <PlayersList
+        handleDeletePlayer={handleDeletePlayer}
+        selectedTeam={selectedTeam}
+      />
+
+      <Button
+        text="Remover turma"
+        type="SECONDARY"
+        onPress={handleDeleteGroup}
+      />
+    </Container>
+  );
 }

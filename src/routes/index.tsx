@@ -4,13 +4,13 @@ import { View } from "react-native";
 import { useTheme } from "styled-components";
 
 export function Routes() {
-	const { COLORS } = useTheme();
+  const { COLORS } = useTheme();
 
-	return (
-		<View style={{ flex: 1, backgroundColor: COLORS.GRAY_600 }}>
-			<NavigationContainer>
-				<AppRouter />
-			</NavigationContainer>
-		</View>
-	);
+  return (
+    <View style={{ flex: 1, backgroundColor: COLORS.GRAY_600 }}>
+      <NavigationContainer>
+        <AppRouter />
+      </NavigationContainer>
+    </View>
+  );
 }

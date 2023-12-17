@@ -1,13 +1,12 @@
 import { FlatList } from "react-native";
 import { HeaderList, NumberOfPlayers } from "./styles";
 import { Group } from "@@types/GroupType";
-import { Team } from "@@types/TeamType";
 import { Filter } from "@components/Filter/Filter";
 
 interface TeamsHeaderProps {
   group: Group | null;
-  selectedTeam: Team | null;
-  setSelectedTeam: (team: Team) => void;
+  selectedTeam: number;
+  setSelectedTeam: (teamIndex: number) => void;
 }
 
 export function TeamsHeader({
@@ -21,16 +20,18 @@ export function TeamsHeader({
         data={group?.teams}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <Filter
             title={item.name}
-            isActive={item.id === selectedTeam?.id}
-            onPress={() => setSelectedTeam(item)}
+            isActive={index === selectedTeam}
+            onPress={() => setSelectedTeam(index)}
           />
         )}
         horizontal
       />
-      <NumberOfPlayers>{selectedTeam?.players.length}</NumberOfPlayers>
+      <NumberOfPlayers>
+        {group?.teams[selectedTeam]?.players.length}
+      </NumberOfPlayers>
     </HeaderList>
   );
 }

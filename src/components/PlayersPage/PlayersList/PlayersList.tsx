@@ -1,21 +1,22 @@
-import { Player } from "@@types/PlayerType";
-import { Team } from "@@types/TeamType";
 import { ListEmpty } from "@components/ListEmpty/ListEmpty";
 import { FlatList } from "react-native";
 import { PlayerCard } from "../PlayerCard/PlayerCard";
+import { Group } from "@@types/GroupType";
 
 interface PlayersListProps {
-  selectedTeam: Team | null;
-  handleDeletePlayer: (player: Player) => void;
+  group: Group | null;
+  selectedTeam: number;
+  handleDeletePlayer: (playerId: string) => void;
 }
 
 export function PlayersList({
   selectedTeam,
   handleDeletePlayer,
+  group,
 }: PlayersListProps) {
   return (
     <FlatList
-      data={selectedTeam?.players}
+      data={group?.teams[selectedTeam]?.players}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={() => (
@@ -24,14 +25,14 @@ export function PlayersList({
       renderItem={({ item }) => (
         <PlayerCard
           name={item.name}
-          onRemove={() => handleDeletePlayer(item)}
+          onRemove={() => handleDeletePlayer(item.id)}
         />
       )}
       contentContainerStyle={[
-        selectedTeam?.players.length !== 0 && {
+        group?.teams[selectedTeam]?.players.length !== 0 && {
           paddingBottom: 100,
         },
-        selectedTeam?.players.length === 0 && {
+        group?.teams[selectedTeam]?.players.length === 0 && {
           flex: 1,
         },
       ]}

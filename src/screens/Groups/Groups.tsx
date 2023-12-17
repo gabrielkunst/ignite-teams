@@ -1,5 +1,5 @@
 import { Header } from "@components/Header/Header";
-import { Container } from "./styles";
+import { Container, GroupsContainer } from "./styles";
 import { Highlight } from "@components/Highlight/Hightlight";
 import { Button } from "@components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
@@ -16,8 +16,10 @@ export function Groups() {
     <Container>
       <Header />
       <Highlight title="Turmas" subtitle="jogue com a sua turma" />
-      <GroupsList />
-      <Button text="Criar turma" onPress={handleNewGroup} />
+      <GroupsContainer>
+        <GroupsList />
+        <Button text="Criar turma" onPress={handleNewGroup} />
+      </GroupsContainer>
     </Container>
   );
 }

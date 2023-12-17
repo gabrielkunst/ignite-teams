@@ -11,3 +11,8 @@ export const Text = styled.Text`
   font-size: 32px;
   color: #fff;
 `;
+
+export const GroupsContainer = styled.View`
+  flex: 1;
+  gap: 16px;
+`;

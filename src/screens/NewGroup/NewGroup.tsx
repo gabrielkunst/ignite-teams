@@ -6,6 +6,7 @@ import { Input } from "@components/Input/Input";
 import { useState } from "react";
 import { useGroups } from "@contexts/GroupsContext/useGroups";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 export function NewGroup() {
   const { addGroup, createGroup } = useGroups();
@@ -16,6 +17,7 @@ export function NewGroup() {
     const trimmedGroupName = groupName.trim();
 
     if (!trimmedGroupName) {
+      Alert.alert("Nome inválido", "O nome não pode ser vazio");
       return;
     }
 

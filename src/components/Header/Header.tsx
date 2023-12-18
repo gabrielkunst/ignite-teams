@@ -3,24 +3,24 @@ import { BackButton, BackIcon, Container, Logo } from "./styles";
 import LogoImg from "@assets/logo.png";
 
 interface HeaderProps {
-	showBackButton?: boolean;
+  showBackButton?: boolean;
 }
 
 export function Header({ showBackButton = false }: HeaderProps) {
-	const navigation = useNavigation();
+  const navigation = useNavigation();
 
-	const handleGoBack = () => {
-		navigation.navigate("groups");
-	};
+  const handleGoBack = () => {
+    navigation.navigate("groups");
+  };
 
-	return (
-		<Container>
-			{showBackButton && (
-				<BackButton onPress={handleGoBack}>
-					<BackIcon />
-				</BackButton>
-			)}
-			<Logo source={LogoImg} />
-		</Container>
-	);
+  return (
+    <Container>
+      {showBackButton && (
+        <BackButton onPress={handleGoBack}>
+          <BackIcon />
+        </BackButton>
+      )}
+      <Logo source={LogoImg} />
+    </Container>
+  );
 }

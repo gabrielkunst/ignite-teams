@@ -1,76 +1,123 @@
 import { Header } from "@components/Header/Header";
-import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
+import { Container } from "./styles";
 import { Highlight } from "@components/Highlight/Hightlight";
-import { ButtonIcon } from "@components/ButtonIcon/ButtonIcon";
-import { Input } from "@components/Input/Input";
-import { Filter } from "@components/Filter/Filter";
-import { FlatList } from "react-native";
-import { useState } from "react";
-import { PlayerCard } from "@components/PlayerCard/PlayerCard";
-import { ListEmpty } from "@components/ListEmpty/ListEmpty";
+import { useCallback, useState } from "react";
 import { Button } from "@components/Button/Button";
-import { useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { Team } from "@@types/TeamType";
+import { Group } from "@@types/GroupType";
+import { Loading } from "@components/Loading";
+import { AddPlayerForm } from "@components/PlayersPage/AddPlayerForm/AddPlayerForm";
+import { TeamsHeader } from "@components/PlayersPage/TeamsHeader/TeamsHeader";
+import { PlayersList } from "@components/PlayersPage/PlayersList/PlayersList";
+import { useGroups } from "@contexts/GroupsContext/useGroups";
+import { Alert } from "react-native";
 
 type RouteParams = {
-	group: string;
+  groupId: string;
 };
 
 export function Players() {
-	const [selectedTeam, setSelectedTeam] = useState("Time A");
-	const [players, setPlayers] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [group, setGroup] = useState<Group | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<number>(0);
+  const router = useRoute();
+  const navigation = useNavigation();
+  const {
+    groups,
+    getGroup,
+    createPlayer,
+    addPlayer,
+    removeGroup,
+    removePlayer,
+  } = useGroups();
 
-	const route = useRoute();
-	const { group } = route.params as RouteParams;
+  const handleAddPlayer = (playerName: string) => {
+    const newPlayer = createPlayer(playerName);
+    addPlayer(group!.id, group!.teams[selectedTeam].id, newPlayer);
+  };
 
-	return (
-		<Container>
-			<Header showBackButton />
-			<Highlight
-				title={group}
-				subtitle="adicione a galera e separe os times"
-			/>
+  const handleDeletePlayer = (playerId: string) => {
+    removePlayer(group!.id, group!.teams[selectedTeam].id, playerId);
+  };
 
-			<Form>
-				<Input placeholder="Nome da pessoa" autoCorrect={false} />
-				<ButtonIcon iconName="add" type="PRIMARY" />
-			</Form>
+  const handleDeleteGroup = () => {
+    Alert.alert("Remover turma", "Tem certeza que deseja remover esta turma?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Remover",
+        onPress: () => {
+          removeGroup(group!.id);
+          navigation.navigate("groups");
+        },
+        style: "destructive",
+      },
+    ]);
+  };
 
-			<HeaderList>
-				<FlatList
-					data={["Time A", "Time B"]}
-					showsHorizontalScrollIndicator={false}
-					keyExtractor={(item) => item}
-					renderItem={({ item }) => (
-						<Filter
-							title={item}
-							isActive={item === selectedTeam}
-							onPress={() => setSelectedTeam(item)}
-						/>
-					)}
-					horizontal
-				/>
-				<NumberOfPlayers>{players.length}</NumberOfPlayers>
-			</HeaderList>
+  useFocusEffect(
+    useCallback(() => {
+      const setURLGroup = () => {
+        try {
+          setIsLoading(true);
 
-			<FlatList
-				data={players}
-				showsVerticalScrollIndicator={false}
-				keyExtractor={(item) => item}
-				ListEmptyComponent={() => (
-					<ListEmpty message="Não há pessoas nesse time." />
-				)}
-				renderItem={({ item }) => (
-					<PlayerCard name={item} onRemove={() => {}} />
-				)}
-				contentContainerStyle={[
-					players.length !== 0 && { paddingBottom: 100 },
-					players.length === 0 && {
-						flex: 1,
-					},
-				]}
-			/>
+          const { groupId } = router.params as RouteParams;
+          const group = getGroup(groupId)!;
+          // null assertion operator (!) used above
+          // because if there is no group, getGroup throws an error
+          // and the catch block will be executed, therefore here group is not undefined
 
-			<Button text="Remover turma" type="SECONDARY" />
-		</Container>
-	);
+          setGroup(group);
+          setIsLoading(false);
+        } catch (error) {
+          Alert.alert("Ops! Ocorreu um erro ao carregar o grupo.");
+          navigation.navigate("groups");
+        }
+      };
+
+      setURLGroup();
+    }, [groups])
+  );
+
+  if (!group || isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <Container>
+      <Header showBackButton />
+
+      <Highlight
+        title={group?.name || "Nome do Grupo"}
+        subtitle="adicione a galera e separe os times"
+      />
+
+      <AddPlayerForm onSubmit={handleAddPlayer} />
+
+      <TeamsHeader
+        group={group}
+        selectedTeam={selectedTeam}
+        setSelectedTeam={setSelectedTeam}
+      />
+
+      <PlayersList
+        handleDeletePlayer={handleDeletePlayer}
+        selectedTeam={selectedTeam}
+        group={group}
+      />
+
+      <Button
+        text="Remover turma"
+        type="SECONDARY"
+        onPress={handleDeleteGroup}
+      />
+    </Container>
+  );
 }
